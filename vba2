@@ -1,0 +1,45 @@
+' -----------暗号化START----------
+Dim Angou, Angou2
+
+Angou = "START"
+Angou2 = EncodeOn( Angou )
+WScript.Echo "オリジナル:" & Angou
+WScript.Echo "暗号化    :" & Angou2
+WScript.Quit
+
+
+' -------------------------------------
+' パスワード暗号化　処理 --------------
+' -------------------------------------
+Function EncodeOn( TargetStr )
+
+  Dim LV_chkStr0
+  Dim LV_chkStr1
+  Dim LV_newStr2
+  
+  ''-- 対象文字列ループ
+  For i = 1 To len(TargetStr)
+      ''-- 1文字読み込み
+      LV_chkStr0 = Mid(TargetStr, i, 1)
+      
+      ''-- 処理開始
+      LV_chkStr0 = LCase(LV_chkStr0)                          ' 小文字変換
+      If LV_chkStr0 >= "a" and LV_chkStr0 <= "m" Then         '  [a-m]の場合
+        LV_chkStr1 = Chr(Asc(LV_chkStr0)+13)                  '    LOT+13
+      ElseIf LV_chkStr0 >= "n" and LV_chkStr0 <= "z" Then     '  [n-z]の場合
+        LV_chkStr1 = Chr(Asc(LV_chkStr0)-13)                  '    LOT-13
+      ElseIf LV_chkStr0 >= "0" and LV_chkStr0 <= "4" Then     '  [0-5]の場合
+        LV_chkStr1 = Chr(Asc(LV_chkStr0)+5)                   '    LOT+5
+      ElseIf LV_chkStr0 >= "5" and LV_chkStr0 <= "9" Then     '  [6-9]の場合
+        LV_chkStr1 = Chr(Asc(LV_chkStr0)-5)                   '    LOT-5
+      Else                                                    '  [それ以外]
+        LV_chkStr1 = LV_chkStr0                               '    そのまま
+      End If
+      LV_newStr2 = LV_newStr2 & LV_chkStr1                    ' 変換後文字セット
+  Next
+  
+  ''-- Encode後の結果を戻す
+  EncodeOn = LV_newStr2
+  
+End Function
+' -----------暗号化END----------
