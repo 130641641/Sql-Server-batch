@@ -1,0 +1,33 @@
+@ECHO OFF
+REM **********************************************************************
+REM    
+REM   
+REM    
+REM
+REM   変更履歴
+REM   
+REM
+REM **********************************************************************
+
+SETLOCAL
+CALL SET_SP_ENV.BAT
+SET LOGFILE=D:\log\SM_TOKUSHU_USER.log
+SET CSVFILE=D:\input\T_ADMIN.csv
+
+ECHO ************************ > %LOGFILE%
+ECHO 処理開始 >> %LOGFILE%
+DATE /T >> %LOGFILE%
+TIME /T >> %LOGFILE%
+
+if "%PROCESSOR_ARCHITECTURE%" EQU "x86" (
+  cscript.exe SM_TOKUSHU_USER.vbs %SVR_NAME% %DB_NAME% %USER_ID% %PASSWORD% %CSVFILE% %OLD_SVR_NAME% %OLD_DB_NAME% %OLD_USER_ID% %OLD_PASSWORD% //Nologo >> %LOGFILE%
+)
+
+if "%PROCESSOR_ARCHITECTURE%" NEQ "x86" (
+  C:Windows\SysWOW32\cscript.exe SM_TOKUSHU_USER.vbs %SVR_NAME% %DB_NAME% %USER_ID% %PASSWORD% %CSVFILE% %OLD_SVR_NAME% %OLD_DB_NAME% %OLD_USER_ID% %OLD_PASSWORD% //Nologo >> %LOGFILE%
+)
+
+ECHO 処理終了 >> %LOGFILE%
+DATE /T >> %LOGFILE%
+TIME /T >> %LOGFILE%
+ECHO ************************ >> %LOGFILE%
